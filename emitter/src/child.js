@@ -6,17 +6,34 @@ class Child extends Component {
         super();
         this.triggerEmitter = this.triggerEmitter.bind(this)
         this.state={
-            age:27,
-            name:'bricks'
+            type:'true',
+            exit:1
         }
     }
     triggerEmitter(e){
-        this.props.eventEimtter.emit('change','emitter trigger')
+        if( e.target.getAttribute('custom-type') == 'true' ){
+            this.props.eventEimtter.emit('childChange','emitter trigger')
+            this.setState({
+                type:'false',
+                //exit:1
+            })
+        }else{
+            this.setState({
+                exit:0
+            })
+        }
+    }
+    componentWillUnmount(){
+        this.props.idToken.remove()
     }
     render(){
-        return (
-            <h1 onClick={this.triggerEmitter}> emitter trigger </h1>
-        )
+        if(this.state.exit == 1 ){
+            return (
+                <button onClick={this.triggerEmitter} custom-type={this.state.type}> emitter trigger </button>
+            )
+        }else{
+            return null
+        }
     }
 
 }

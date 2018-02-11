@@ -14,17 +14,15 @@ class App extends Component {
     this.state = {
       text:"default text "
     }; 
-  }
-  componentDidMount(){
     var curSelf = this ;
-    var rootToken = emitter.addListener('change',function(...args){
+    var rootToken = emitter.addListener('childChange',function(...args){
       var contenText = [...args];
-      curSelf.setState({
-        text:contenText
+        curSelf.setState({
+        text:contenText,
+        rootToken
       })
     })
   }
-
   render() {
     return (
       <div className="App">
@@ -32,7 +30,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">{this.state.text}</h1>
         </header>
-        <Child  eventEimtter={emitter} />
+        <Child  eventEimtter={emitter} idToken={this.rootToken} />
       </div>
     );
   }
